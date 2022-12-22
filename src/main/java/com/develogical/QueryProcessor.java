@@ -1,6 +1,7 @@
 package com.develogical;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,9 +16,41 @@ public class QueryProcessor {
                     "writer in the English language and the world's pre-eminent dramatist.";
         } else if (query.toLowerCase().contains("what is your name")) {
             return "Rory";
+        } else if (query.toLowerCase().contains("numbers is the largest")) {
+            String numbersString = removePunt(removeChars(query));
+            String[] numbersList = numbersString.split(",");
+            int largest = Integer.parseInt(numbersList[0]);
+            for (String n : numbersList) {
+                int l = Integer.parseInt(n);
+                if (l> largest) {
+                    largest = l;
+                }
+            }
+            return String.valueOf(largest);
+
+        } else if (query.toLowerCase().contains("plus")) {
+            String numbersString = removeChars(query);
+            String[] numbersList = numbersString.split(" ");
+            return String.valueOf(Integer.valueOf(numbersList[2]) + Integer.valueOf(numbersList[4]));
         }
 
         return "";
+    }
+
+    public static String removeChars(String input) {
+        String output = input.toLowerCase();
+        for (char i : "abcdefghijklmnopqrstuvwxyz?".toCharArray()) {
+            output = output.replace(String.valueOf(i), "");
+        }
+        return output;
+    }
+
+    public static String removePunt(String input) {
+        String output = input.toLowerCase();
+        for (char i : " :?".toCharArray()) {
+            output = output.replace(String.valueOf(i), "");
+        }
+        return output;
     }
     
 }
