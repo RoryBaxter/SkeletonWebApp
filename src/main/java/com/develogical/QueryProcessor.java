@@ -32,6 +32,10 @@ public class QueryProcessor {
             String numbersString = removeChars(query);
             String[] numbersList = numbersString.split(" ");
             return String.valueOf(Integer.valueOf(numbersList[2]) + Integer.valueOf(numbersList[4]));
+        } else if (query.toLowerCase().contains("multi")) {
+            String numbersString = removeChars(query);
+            String[] numbersList = numbersString.split(" ");
+            return String.valueOf(Integer.valueOf(numbersList[2]) * Integer.valueOf(numbersList[4]));
         }
 
         return "";
@@ -52,5 +56,14 @@ public class QueryProcessor {
         }
         return output;
     }
+
+    /*public static String cleanSpace(String input) {
+        String output = input.toLowerCase();
+        for (int i = 0; i<input.length(); i++) {
+            output = output.replace("  ", "");
+        }
+
+        return output;
+    }*/
     
 }
