@@ -19,8 +19,8 @@ public class QueryProcessor {
             return "Rory";
         } else if (query.toLowerCase().contains("numbers is the largest")) {
             String numbersString = cleanSpace(removePunt(removeChars(query)));
-            String[] numbersList = numbersString.split(",");
-            int largest = Integer.parseInt(numbersList[0]);
+            List<String> numbersList = reomveNull(numbersString.split(","));
+            int largest = Integer.parseInt(numbersList.get(0));
             for (String n : numbersList) {
                 int l = Integer.parseInt(n);
                 if (l> largest) {
@@ -31,8 +31,6 @@ public class QueryProcessor {
 
         } else if (query.toLowerCase().contains("plus")) {
             String numbersString = removeChars(query).strip();
-            System.out.println(numbersString);
-            System.out.println(numbersString);
             List<String> numbersList = reomveNull(numbersString.split(" "));
 
             return String.valueOf(Integer.valueOf(numbersList.get(0)) + Integer.valueOf(numbersList.get(1)));
@@ -41,7 +39,7 @@ public class QueryProcessor {
             String[] numbersList = numbersString.split(" ");
             return String.valueOf(Integer.valueOf(numbersList[0]) * Integer.valueOf(numbersList[1]));
         } else if (query.toLowerCase().contains("square and a cube")) {
-            return squareAndCube(removePunt(cleanSpace(removeChars(query))).split(","));
+            return squareAndCube(stringToListOfNumbers(query));
         }
 
         return "";
@@ -72,15 +70,13 @@ public class QueryProcessor {
         return output.strip();
     }
 
-    public String squareAndCube(String[] numbersList) {
-        for (String n : numbersList) {
-            int test = Integer.parseInt(n);
-            int sqrt = (int)Math.sqrt(test);
-            if (Math.pow(sqrt, 2) == test) {
-                int cubeRoot = (int)Math.cbrt(test);
-                if (Math.pow(cubeRoot, 3) == test) {
-                    System.out.println(n);
-                    return n;
+    public String squareAndCube(List<Integer> numbersList) {
+        for (Integer n : numbersList) {
+            int sqrt = (int)Math.sqrt(n);
+            if (Math.pow(sqrt, 2) == n) {
+                int cubeRoot = (int)Math.cbrt(n);
+                if (Math.pow(cubeRoot, 3) == n) {
+                    return String.valueOf(n);
                 }
             }
         }
@@ -96,6 +92,31 @@ public class QueryProcessor {
             }
         }
         return output;
+    }
+
+    public List<Integer> reomveNull2(String[] input) {
+        List<Integer> output = new ArrayList<>();
+        int size = 0;
+        for (String n : input) {
+            if (n != " " && n != "") {
+                output.add(Integer.valueOf(n));
+            }
+        }
+        return output;
+    }
+
+
+    public List<Integer> stringToListOfNumbers(String input) {
+        String noChars = removeChars(input);
+        String noPunt = removePunt(noChars).strip();
+        String cleanSpace = cleanSpace(noPunt);
+
+        String[] numbersList = cleanSpace.split(",");
+
+        List<Integer> numbersArray = reomveNull2(numbersList);
+
+        return numbersArray;
+
     }
     
 }
