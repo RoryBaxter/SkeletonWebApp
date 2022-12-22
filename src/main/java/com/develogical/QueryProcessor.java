@@ -1,5 +1,6 @@
 package com.develogical;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BinaryOperator;
@@ -17,7 +18,7 @@ public class QueryProcessor {
         } else if (query.toLowerCase().contains("what is your name")) {
             return "Rory";
         } else if (query.toLowerCase().contains("numbers is the largest")) {
-            String numbersString = removePunt(removeChars(query));
+            String numbersString = cleanSpace(removePunt(removeChars(query)));
             String[] numbersList = numbersString.split(",");
             int largest = Integer.parseInt(numbersList[0]);
             for (String n : numbersList) {
@@ -29,13 +30,18 @@ public class QueryProcessor {
             return String.valueOf(largest);
 
         } else if (query.toLowerCase().contains("plus")) {
-            String numbersString = removeChars(query);
+            String numbersString = removeChars(query).strip();
+            System.out.println(numbersString);
+            System.out.println(numbersString);
+            List<String> numbersList = reomveNull(numbersString.split(" "));
+
+            return String.valueOf(Integer.valueOf(numbersList.get(0)) + Integer.valueOf(numbersList.get(1)));
+        } else if (query.toLowerCase().contains("multiplied")) {
+            String numbersString = cleanSpace(removeChars(query));
             String[] numbersList = numbersString.split(" ");
-            return String.valueOf(Integer.valueOf(numbersList[2]) + Integer.valueOf(numbersList[4]));
-        } else if (query.toLowerCase().contains("multi")) {
-            String numbersString = removeChars(query);
-            String[] numbersList = numbersString.split(" ");
-            return String.valueOf(Integer.valueOf(numbersList[2]) * Integer.valueOf(numbersList[4]));
+            return String.valueOf(Integer.valueOf(numbersList[0]) * Integer.valueOf(numbersList[1]));
+        } else if (query.toLowerCase().contains("square and a cube")) {
+            return squareAndCube(removePunt(cleanSpace(removeChars(query))).split(","));
         }
 
         return "";
@@ -57,13 +63,39 @@ public class QueryProcessor {
         return output;
     }
 
-    /*public static String cleanSpace(String input) {
+    public static String cleanSpace(String input) {
         String output = input.toLowerCase();
         for (int i = 0; i<input.length(); i++) {
             output = output.replace("  ", "");
         }
 
+        return output.strip();
+    }
+
+    public String squareAndCube(String[] numbersList) {
+        for (String n : numbersList) {
+            int test = Integer.parseInt(n);
+            int sqrt = (int)Math.sqrt(test);
+            if (Math.pow(sqrt, 2) == test) {
+                int cubeRoot = (int)Math.cbrt(test);
+                if (Math.pow(cubeRoot, 3) == test) {
+                    System.out.println(n);
+                    return n;
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<String> reomveNull(String[] input) {
+        List<String> output = new ArrayList<>();
+        int size = 0;
+        for (String n : input) {
+            if (n != " " && n != "") {
+                output.add(n);
+            }
+        }
         return output;
-    }*/
+    }
     
 }

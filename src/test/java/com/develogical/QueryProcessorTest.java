@@ -32,12 +32,22 @@ public class QueryProcessorTest {
 
     @Test
     public void largest() throws Exception {
-        assertThat(queryProcessor.process("Which of the following numbers is the largest: 96, 4, 92?"), containsString("96"));
+        assertThat(queryProcessor.process("Which of the following numbers is the largest: 96, 4, 92?"), is("96"));
     }
 
     @Test
     public void removeChars() throws Exception {
         assertThat(queryProcessor.removeChars("Which of the following numbers is the largest: 96, 4, 92?"), is("       : 96, 4, 92"));
+    }
+
+    @Test
+    public void squareAndCube() throws Exception {
+        assertThat(queryProcessor.process("Which of the following numbers is both a square and a cube: 961, 289, 1461, 2313, 2744, 835, 4096?"), containsString("4096"));
+    }
+
+    @Test
+    public void multiplied() throws Exception {
+        assertThat(queryProcessor.process("What is 1 multiplied by 94?"), containsString("94"));
     }
 
 }
