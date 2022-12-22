@@ -50,4 +50,9 @@ public class QueryProcessorTest {
         assertThat(queryProcessor.process("What is 1 multiplied by 94?"), containsString("94"));
     }
 
+    @Test
+    public void nullQuery(){
+        assertThat(queryProcessor.process(""), is(""));
+    }
+
 }
